@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     @Autowired
@@ -108,7 +109,6 @@ public class UserController {
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(userDTO.getPassword())
-                .scores(userDTO.getScoreslist())
                 .build();
 
         return ResponseEntity.ok(userService.save(user));
