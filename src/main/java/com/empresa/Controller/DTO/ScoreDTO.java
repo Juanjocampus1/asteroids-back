@@ -10,8 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScoreDTO {
-
     private Long id;
-    private Long score;
-    private Long enemysKilled;
+    private int score;
+    private int enemysKilled;
+    private Long userId;
 }

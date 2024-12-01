@@ -1,7 +1,10 @@
 package com.empresa.Controller;
 
+import com.empresa.Controller.DTO.ScoreDTO;
 import com.empresa.Controller.DTO.UserDTO;
+import com.empresa.Entities.Score;
 import com.empresa.Entities.User;
+import com.empresa.Service.Impl.ScoreServiceImpl;
 import com.empresa.Service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private ScoreServiceImpl scoreServiceImpl;
 
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll(){
@@ -112,6 +118,25 @@ public class UserController {
                 .build();
 
         return ResponseEntity.ok(userService.save(user));
+    }
+
+    @PostMapping("/saveForUser/{userId}")
+    public ResponseEntity<?> saveForUser(@PathVariable Long userId, @RequestBody ScoreDTO scoreDTO) {
+        Optional<User> userOptional = userService.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            Score score = Score.builder()
+                    .score(scoreDTO.getScore())
+                    .enemysKilled(scoreDTO.getEnemysKilled())
+                    .user(user)
+                    .build();
+
+            Score savedScore = scoreServiceImpl.save(score);
+            return ResponseEntity.ok(savedScore);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/update/{id}")

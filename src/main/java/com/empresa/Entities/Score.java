@@ -15,8 +15,8 @@ public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long score;
-    private Long enemysKilled;
+    private int score;
+    private int enemysKilled;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
